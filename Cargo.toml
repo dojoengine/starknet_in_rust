@@ -1,18 +1,18 @@
 [package]
+description = "A Rust implementation of Starknet execution logic"
+edition = "2021"
+license = "Apache-2.0"
 name = "starknet_in_rust"
 version = "0.4.0"
-edition = "2021"
-description = "A Rust implementation of Starknet execution logic"
-license = "Apache-2.0"
 
 [features]
-default = ["with_mimalloc"]
-with_mimalloc = ["dep:mimalloc"]
-cairo_1_tests = []
-metrics = []
+cairo_1_tests = [  ]
+default = [ "with_mimalloc" ]
+metrics = [  ]
+with_mimalloc = [ "dep:mimalloc" ]
 # Disclaimer: This feature enables state modifications being applied on reverted and failings txs, and also disables address availability check when deploying contracts.
 # Only use for benchmarking using the replay binary
-replay_benchmark = []
+replay_benchmark = [  ]
 
 [workspace]
 members = [
@@ -27,7 +27,7 @@ cairo-lang-casm = "=2.5.4"
 cairo-lang-sierra = "=2.5.4"
 cairo-lang-starknet = "=2.5.4"
 cairo-lang-utils = "=2.5.4"
-cairo-vm = { git = "https://github.com/lambdaclass/cairo-vm", rev = "3547089579dd74f815edbc2d1caa91e00fc8a2f7", features = ["cairo-1-hints"] }
+cairo-vm = { git = "https://github.com/lambdaclass/cairo-vm", rev = "3547089579dd74f815edbc2d1caa91e00fc8a2f7", features = [ "cairo-1-hints" ] }
 num-traits = "0.2.15"
 starknet = "0.7.0" # todo: update to 0.9.0+ once cairo-lang is 2.6.0+
 starknet_api = "0.7.0-dev.0" # todo: update to 0.9.0+ once cairo-lang is 2.6.0+
@@ -35,7 +35,8 @@ thiserror = "1.0.32"
 
 [dependencies]
 anyhow = "1.0"
-base64 = { version = "0.21.0", default-features = false, features = ["alloc"] }
+auto_impl = "1.1.0"
+base64 = { version = "0.21.0", default-features = false, features = [ "alloc" ] }
 cairo-lang-casm = { workspace = true }
 cairo-lang-sierra = { workspace = true }
 cairo-lang-starknet = { workspace = true }
@@ -53,20 +54,17 @@ hex = "0.4.3"
 keccak = "0.1.3"
 lazy_static = "1.4.0"
 mimalloc = { version = "0.1.29", default-features = false, optional = true }
-num-bigint = { version = "0.4", features = ["serde"] }
+num-bigint = { version = "0.4", features = [ "serde" ] }
 num-integer = "0.1.45"
 num-traits = { workspace = true }
 once_cell = "1.17.1"
-sha3 = "0.10.1"
-serde = { version = "1.0.152", features = ["derive"] }
-serde_json = { version = "1.0", features = [
-    "arbitrary_precision",
-    "raw_value",
-] }
+serde = { version = "1.0.152", features = [ "derive" ] }
+serde_json = { version = "1.0", features = [ "arbitrary_precision", "raw_value" ] }
 serde_json_pythonic = "0.1.2"
+sha3 = "0.10.1"
 starknet = { workspace = true }
-starknet_api = { workspace = true }
 starknet-crypto = "0.6.1"
+starknet_api = { workspace = true }
 thiserror = { workspace = true }
 tracing = "0.1.37"
 
@@ -75,22 +73,22 @@ assert_matches = "1.5.0"
 coverage-helper = "0.2.0"
 lru = "0.11.0"
 pretty_assertions_sorted = "1.2.3"
-tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.17", features = [ "env-filter" ] }
 
 [[bench]]
-path = "bench/internals.rs"
-name = "internals"
 harness = false
+name = "internals"
+path = "bench/internals.rs"
 
 [[bin]]
-path = "src/bin/native_bench.rs"
 name = "cairo_native"
-required-features = ["cairo-native"]
+path = "src/bin/native_bench.rs"
+required-features = [ "cairo-native" ]
 
 [[bench]]
-path = "bench/yas.rs"
-name = "yas"
 harness = false
+name = "yas"
+path = "bench/yas.rs"
 
 [profile.release]
 codegen-units = 1
