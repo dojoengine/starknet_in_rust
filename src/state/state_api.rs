@@ -10,6 +10,7 @@ use crate::{
 use cairo_lang_utils::bigint::BigUintAsHex;
 use cairo_vm::Felt252;
 
+#[auto_impl::auto_impl(&)]
 pub trait StateReader {
     /// Returns the contract class of the given class hash or compiled class hash.
     fn get_contract_class(&self, class_hash: &ClassHash) -> Result<CompiledClass, StateError>;

@@ -34,6 +34,7 @@ starknet_api = "0.6.0"
 thiserror = "1.0.32"
 
 [dependencies]
+auto_impl = "1.1.0"
 anyhow = "1.0.66"
 base64 = { version = "0.21.0", default-features = false, features = ["alloc"] }
 cairo-lang-casm = { workspace = true }
