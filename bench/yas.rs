@@ -6,7 +6,7 @@ Usage:
         by passing either "jit" or "aot" as an argument when running the bench
         * Example:
             `cargo bench --features cairo-native --bench yas aot`
-    Without cairo-native feature enababled:
+    Without cairo-native feature enabled:
         * Runs the bench using cairo_vm, no customization args
 */
 #![deny(warnings)]
@@ -282,9 +282,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut num_runs = 0;
     let mut state = loop {
         let mut state = state.clone();
-
-        let yas_router_address = yas_router_address;
-        let yas_pool_address = yas_pool_address;
 
         // Swap (invoke).
         info!("Swapping tokens.");
