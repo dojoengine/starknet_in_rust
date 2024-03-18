@@ -170,6 +170,17 @@ pub enum Transaction {
 }
 
 impl Transaction {
+    pub fn fee_type(&self) -> FeeType {
+        match self {
+            Transaction::Declare(tx) => tx.account_tx_fields().fee_type(),
+            Transaction::DeployAccount(tx) => tx.account_tx_fields().fee_type(),
+            Transaction::InvokeFunction(tx) => tx.account_tx_fields().fee_type(),
+            Transaction::Deploy(_)
+            | Transaction::L1Handler(_)
+            | Transaction::DeclareDeprecated(_) => FeeType::Eth,
+        }
+    }
+
     /// returns the contract address of the transaction.
     pub fn contract_address(&self) -> Address {
         match self {

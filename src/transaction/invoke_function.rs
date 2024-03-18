@@ -58,6 +58,7 @@ pub struct InvokeFunction {
     hash_value: Felt252,
     #[getset(get = "pub")]
     signature: Vec<Felt252>,
+    #[getset(get = "pub")]
     account_tx_fields: VersionSpecificAccountTxFields,
     nonce: Option<Felt252>,
     skip_validation: bool,

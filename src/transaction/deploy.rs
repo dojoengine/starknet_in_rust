@@ -1,8 +1,8 @@
 use super::{Address, ClassHash, Transaction, VersionSpecificAccountTxFields};
 use crate::{
     core::{
-        contract_address::compute_deprecated_class_hash, errors::hash_errors::HashError,
-        errors::state_errors::StateError,
+        contract_address::compute_deprecated_class_hash,
+        errors::{hash_errors::HashError, state_errors::StateError},
         transaction_hash::deprecated::deprecated_calculate_deploy_transaction_hash,
     },
     definitions::{

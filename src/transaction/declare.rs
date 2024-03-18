@@ -35,6 +35,7 @@ use crate::{
 use cairo_lang_starknet::casm_contract_class::CasmContractClass;
 use cairo_lang_starknet::contract_class::ContractClass as SierraContractClass;
 use cairo_vm::Felt252;
+use getset::Getters;
 use num_traits::Zero;
 use std::fmt::Debug;
 use std::sync::Arc;
@@ -48,11 +49,12 @@ use {
 /// Represents a declare transaction in the starknet network.
 /// Declare creates a blueprint of a contract class that is used to deploy instances of the contract
 /// Declare is meant to be used with the new cairo contract syntax, starting from Cairo1.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Getters)]
 pub struct Declare {
     pub sender_address: Address,
     pub validate_entry_point_selector: Felt252,
     pub version: Felt252,
+    #[getset(get = "pub")]
     pub account_tx_fields: VersionSpecificAccountTxFields,
     pub signature: Vec<Felt252>,
     pub nonce: Felt252,

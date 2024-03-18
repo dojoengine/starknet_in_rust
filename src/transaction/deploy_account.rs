@@ -69,6 +69,7 @@ pub struct DeployAccount {
     constructor_calldata: Vec<Felt252>,
     version: Felt252,
     nonce: Felt252,
+    #[getset(get = "pub")]
     account_tx_fields: VersionSpecificAccountTxFields,
     #[getset(get = "pub")]
     hash_value: Felt252,
