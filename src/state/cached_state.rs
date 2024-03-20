@@ -175,9 +175,7 @@ impl<T: StateReader, C: ContractClassCache> StateReader for CachedState<T, C> {
     // TODO: check if that the proper way to store it (converting hash to address)
     /// Returned the compiled class hash for a given class hash.
     fn get_compiled_class_hash(&self, class_hash: &ClassHash) -> Result<ClassHash, StateError> {
-        if let Some(compiled_class_hash) =
-            self.cache.class_hash_to_compiled_class_hash.get(class_hash)
-        {
+        if let Some(compiled_class_hash) = self.cache.get_compiled_class_hash(class_hash) {
             Ok(*compiled_class_hash)
         } else {
             self.state_reader.get_compiled_class_hash(class_hash)

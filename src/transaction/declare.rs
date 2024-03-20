@@ -724,6 +724,7 @@ mod tests {
             Felt252::ONE,
         )
         .unwrap();
+        let class_hash = declare.sierra_class_hash;
 
         // crate state to store casm contract class
         let casm_contract_class_cache = PermanentContractClassCache::default();
@@ -738,6 +739,9 @@ mod tests {
             CasmContractClass::from_contract_class(declare.sierra_contract_class.unwrap(), true)
                 .unwrap();
         let declare_compiled_class_hash = ClassHash::from(declare.compiled_class_hash);
+
+        let actual_compiled_class_hash =
+            state.get_compiled_class_hash(&(class_hash.into())).unwrap();
         let casm_class = match state
             .get_contract_class(&declare_compiled_class_hash)
             .unwrap()
@@ -746,6 +750,7 @@ mod tests {
             _ => unreachable!(),
         };
 
+        assert_eq!(declare_compiled_class_hash, actual_compiled_class_hash);
         assert_eq!(expected_casm_class, casm_class);
     }
 
