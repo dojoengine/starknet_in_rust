@@ -7,6 +7,7 @@ use crate::{
     execution::os_usage::OsResources,
     syscalls::syscall_handler_errors::SyscallHandlerError,
     transaction::ClassHash,
+    utils::format_panic_data,
 };
 use cairo_vm::{
     types::{
@@ -44,6 +45,8 @@ pub enum TransactionError {
     ActualFeeExceedsMaxFee(u128, u128),
     #[error("Fee transfer failure: {0}")]
     FeeTransferError(Box<TransactionError>),
+    #[error("Execution failed. Failure reason: {}", format_panic_data(.error_data))]
+    ExecutionFailed { error_data: Vec<Felt252> },
     #[error("{0}")]
     FeeError(String),
     #[error("Cairo resource names must be contained in fee weights dict")]

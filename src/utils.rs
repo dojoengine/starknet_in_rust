@@ -427,6 +427,24 @@ pub fn parse_felt_array(felt_strings: &[Value]) -> Vec<Felt252> {
     felts
 }
 
+pub fn format_panic_data(felts: &[Felt252]) -> String {
+    use cairo_felt::Felt252 as CairoFelt;
+    use cairo_lang_runner::casm_run::format_next_item;
+
+    let mut felts = felts
+        .iter()
+        .map(|felt| CairoFelt::from_bytes_be(&felt.to_bytes_be()));
+    let mut items = Vec::new();
+    while let Some(item) = format_next_item(&mut felts) {
+        items.push(item.quote_if_string());
+    }
+    if let [item] = &items[..] {
+        item.clone()
+    } else {
+        format!("({})", items.join(", "))
+    }
+}
+
 //* -------------------
 //*      Macros
 //* -------------------

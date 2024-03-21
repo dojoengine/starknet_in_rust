@@ -178,11 +178,17 @@ impl ExecutionEntryPoint {
                             transactional_state.cache(),
                         )?)?;
 
-                        Ok(ExecutionResult {
-                            call_info: Some(call_info),
-                            revert_error: None,
-                            n_reverted_steps: 0,
-                        })
+                        if call_info.failure_flag {
+                            Err(TransactionError::ExecutionFailed {
+                                error_data: call_info.retdata,
+                            })
+                        } else {
+                            Ok(ExecutionResult {
+                                call_info: Some(call_info),
+                                revert_error: None,
+                                n_reverted_steps: 0,
+                            })
+                        }
                     }
                     Err(e) => {
                         if !support_reverted {
@@ -650,7 +656,7 @@ impl ExecutionEntryPoint {
         resources_manager.cairo_usage += &runner.get_execution_resources()?;
 
         let call_result = runner.get_call_result(self.initial_gas)?;
-        self.build_call_info::<S, C>(
+        let call_info = self.build_call_info::<S, C>(
             previous_cairo_usage,
             resources_manager,
             runner.hint_processor.syscall_handler.starknet_storage_state,
@@ -658,7 +664,15 @@ impl ExecutionEntryPoint {
             runner.hint_processor.syscall_handler.l2_to_l1_messages,
             runner.hint_processor.syscall_handler.internal_calls,
             call_result,
-        )
+        )?;
+
+        if call_info.failure_flag {
+            Err(TransactionError::ExecutionFailed {
+                error_data: call_info.retdata,
+            })
+        } else {
+            Ok(call_info)
+        }
     }
 
     #[cfg(not(feature = "cairo-native"))]
